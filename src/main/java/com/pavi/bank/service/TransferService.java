@@ -16,11 +16,13 @@ public class TransferService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+
+
     public Transaction transfer(TransferRequest request) {
-        Account sender = accountRepository.findById(Long.valueOf(request.senderAccount()))
+        Account sender = accountRepository.findByAccountNumber(request.senderAccount())
                 .orElseThrow(() -> new RuntimeException("Sender account not found."));
 
-        Account receiver = accountRepository.findById(Long.valueOf(request.receiverAccount()))
+        Account receiver = accountRepository.findByAccountNumber(request.receiverAccount())
                 .orElseThrow(() -> new RuntimeException("Receiver account not found."));
 
         if (sender.getBalance() < request.amount()) {
